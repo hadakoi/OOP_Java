@@ -12,6 +12,7 @@ public class Max{
     }
 
     public static void main(String[] args) {
+        
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter the first integer: ");
@@ -25,8 +26,8 @@ public class Max{
 
         int result = max(x, y, z);
         System.out.println("The largest number is: " + result);
+    
         
-        scanner.close();
     }
 }
 
