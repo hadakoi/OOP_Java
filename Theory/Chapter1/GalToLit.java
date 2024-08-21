@@ -1,4 +1,4 @@
-public class GalToLit {
+class GalToLit {
    public static void main(String[] args) {
       double gallons; // Holds the number of gallons
       double liters;  // Holds conversion to liters

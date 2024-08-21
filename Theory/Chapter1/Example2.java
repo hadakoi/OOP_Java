@@ -1,6 +1,5 @@
-// Define a public class named Example2
-public class Example2 {
-
+// Define a class named Example2
+class Example2 {
 // The main method is the entry point of any Java application
 public static void main(String[] args) {
 

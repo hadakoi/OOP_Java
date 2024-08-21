@@ -1,4 +1,4 @@
-public class IfDemo {
+class IfDemo {
    public static void main(String[] args) {
       int a, b;
       a = 2;
