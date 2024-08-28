@@ -1,151 +1,107 @@
 import java.util.Scanner;
 
-class STUDENT {
-   String sname;
-   int[] marks_array;
-   int total;
-   double avg;
+class EMPLOYEE {
+   String Ename;
+   int Eid;
+   double Basic;
+   double DA;
+   double Gross_Sal;
+   double Net_Sal;
 
-   STUDENT() {
-      sname = "Unknown";
-      marks_array = new int[0];
-      total = 0;
-      avg = 0.0;
+   EMPLOYEE() {
+      Ename = "Unknown";
+      Eid = 0;
+      Basic = 0.0;
+      compute_net_sal();
    }
 
-   STUDENT(String name, int[] marks) {
-      sname = name;
-      marks_array = marks;
-      compute();
+   EMPLOYEE(String ename, int eid, double basic) {
+      Ename = ename;
+      Eid = eid;
+      Basic = basic;
+      compute_net_sal();
    }
 
-   void assign(String name, int[] marks) {
-      sname = name;
-      marks_array = marks;
-      compute();
+   void read() {
+      Scanner sc = new Scanner(System.in);
+      System.out.print("Enter Employee ID: ");
+      Eid = sc.nextInt();
+      sc.nextLine();
+      System.out.print("Enter Employee Name: ");
+      Ename = sc.nextLine();
+      System.out.print("Enter Basic Salary: ");
+      Basic = sc.nextDouble();
+      compute_net_sal();
    }
 
-   void compute() {
-      total = 0;
-      for (int mark : marks_array) {
-         total += mark;
-        }
-      avg = (marks_array.length > 0) ? (double) total / marks_array.length : 0.0;
-    }
+   void compute_net_sal() {
+      DA = 0.52 * Basic;
+      Gross_Sal = Basic + DA;
+      double IT = 0.30 * Gross_Sal;
+      Net_Sal = Gross_Sal - IT;
+   }
 
-   String extractInitials() {
-      StringBuilder initials = new StringBuilder();
-      boolean nextCharIsInitial = true;
-      for (int i = 0; i < sname.length(); i++) {
-         char ch = sname.charAt(i);
-         if (ch != ' ') {
-            if (nextCharIsInitial) {
-               initials.append(Character.toUpperCase(ch));
-               nextCharIsInitial = false;
-            }
-         } else {
-               nextCharIsInitial = true;
-            }
-        }
-        return initials.toString();
-    }
-
-   String removeWhitespace() {
-      StringBuilder nameWithoutSpaces = new StringBuilder();
-      for (int i = 0; i < sname.length(); i++) {
-         char ch = sname.charAt(i);
-         if (ch != ' ') {
-               nameWithoutSpaces.append(ch);
+   void formatEmployeeName() {
+      Ename = Ename.toLowerCase();
+      char[] nameChars = Ename.toCharArray();
+      boolean capitalizeNext = true;
+      for (int i = 0; i < nameChars.length; i++) {
+         if (nameChars[i] == ' ') {
+            capitalizeNext = true; 
+         } else if (capitalizeNext) {
+            nameChars[i] = Character.toUpperCase(nameChars[i]);
+            capitalizeNext = false; 
          }
-        }
-        return nameWithoutSpaces.toString();
+      }
+      Ename = new String(nameChars); 
    }
 
-   boolean containsSubstring(String substring) {
-      return sname.contains(substring);
+   String generateEmail() {
+      int spaceIndex = Ename.indexOf(' ');
+      if (spaceIndex == -1) {
+         return "Invalid Name";
+      }
+      char firstInitial = Ename.charAt(0);
+
+      String lastName = Ename.substring(spaceIndex + 1);
+
+      String email = Character.toLowerCase(firstInitial) + lastName.toLowerCase() + "@example.com";
+      return email;
    }
 
    void display() {
-      System.out.println("Student Name: " + sname);
-      System.out.print("Marks: ");
-      for (int mark : marks_array) {
-         System.out.print(mark + " ");
-      }
-      System.out.println("\nTotal Marks: " + total);
-      System.out.println("Average Marks: " + avg);
-      System.out.println("Initials: " + extractInitials());
-      System.out.println("Name without whitespace: " + removeWhitespace());
+      formatEmployeeName();
+      System.out.println("Employee ID: " + Eid);
+      System.out.println("Employee Name: " + Ename);
+      System.out.println("Basic Salary: " + Basic);
+      System.out.println("Dearness Allowance (DA): " + DA);
+      System.out.println("Gross Salary: " + Gross_Sal);
+      System.out.println("Net Salary: " + Net_Sal);
+      System.out.println("Email: " + generateEmail());
    }
 }
 
-public class StudentMain {
-   public static void sortByName(STUDENT[] students) {
-      int n = students.length;
-      for (int i = 0; i < n - 1; i++) {
-         for (int j = 0; j < n - i - 1; j++) {
-            if (students[j].sname.compareTo(students[j + 1].sname) > 0) {
-               STUDENT temp = students[j];
-               students[j] = students[j + 1];
-               students[j + 1] = temp;
-            }
-         }
-      }
-   }
-
+public class EmployeeMain {
    public static void main(String[] args) {
-      Scanner sc = new Scanner(System.in);
-
-      STUDENT defaultStudent = new STUDENT();
+      EMPLOYEE emp1 = new EMPLOYEE();
       System.out.println("Default Constructor:");
-      defaultStudent.display();
+      emp1.display();
 
-      System.out.print("\nEnter the number of students: ");
+      Scanner sc = new Scanner(System.in);
+      System.out.print("\nEnter the number of employees: ");
       int n = sc.nextInt();
-      sc.nextLine();
-
-      STUDENT[] students = new STUDENT[n];
+      EMPLOYEE[] employees = new EMPLOYEE[n];
 
       for (int i = 0; i < n; i++) {
-         System.out.println("\nEnter details for Student " + (i + 1) + ":");
-         System.out.print("Enter the name of student: ");
-         String name = sc.nextLine();
+         employees[i] = new EMPLOYEE();
+         System.out.println("\nEnter details for Employee " + (i + 1) + ":");
+         employees[i].read();
+      }
 
-         System.out.print("Enter the number of subjects: ");
-         int numSubjects = sc.nextInt();
-         sc.nextLine();
-
-         int[] studentMarks = new int[numSubjects];
-         System.out.println("Enter the marks for " + numSubjects + " subjects:");
-         for (int j = 0; j < numSubjects; j++) {
-            studentMarks[j] = sc.nextInt();
-         }
-         sc.nextLine();
-
-         students[i] = new STUDENT(name, studentMarks);
-        }
-
-        System.out.println("\nStudent Details:");
-        for (int i = 0; i < n; i++) {
-            System.out.println("\nDetails of Student " + (i + 1) + ":");
-            students[i].display();
-        }
-
-        System.out.print("\nEnter substring to search in student names: ");
-        String substring = sc.nextLine();
-        System.out.println("\nStudents with names containing \"" + substring + "\":");
-        for (int i = 0; i < n; i++) {
-            if (students[i].containsSubstring(substring)) {
-               System.out.println(students[i].sname);
-            }
-        }
-
-        // Sort students by name
-        sortByName(students);
-
-        System.out.println("\nStudent Details (Sorted Alphabetically):");
-        for (int i = 0; i < n; i++) {
-            System.out.println("\nDetails of Student " + (i + 1) + ":");
-            students[i].display();
-        }
-    }
+      System.out.println("\nEmployee Details:");
+      for (int i = 0; i < n; i++) {
+         System.out.println("\nDetails of Employee " + (i + 1) + ":");
+         employees[i].display();
+      }
+   }
 }
