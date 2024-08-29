@@ -29,9 +29,9 @@ class STUDENT {
       total = 0;
       for (int mark : marks_array) {
          total += mark;
-        }
+      }
       avg = (marks_array.length > 0) ? (double) total / marks_array.length : 0.0;
-    }
+   }
 
    String extractInitials() {
       StringBuilder initials = new StringBuilder();
@@ -44,25 +44,37 @@ class STUDENT {
                nextCharIsInitial = false;
             }
          } else {
-               nextCharIsInitial = true;
-            }
+            nextCharIsInitial = true;
+         }
         }
-        return initials.toString();
-    }
+      return initials.toString();
+   }
 
    String removeWhitespace() {
       StringBuilder nameWithoutSpaces = new StringBuilder();
       for (int i = 0; i < sname.length(); i++) {
          char ch = sname.charAt(i);
          if (ch != ' ') {
-               nameWithoutSpaces.append(ch);
+            nameWithoutSpaces.append(ch);
          }
-        }
-        return nameWithoutSpaces.toString();
-   }
+      }
+      return nameWithoutSpaces.toString();
+    }
 
    boolean containsSubstring(String substring) {
       return sname.contains(substring);
+   }
+
+   void sortAlphabetically(STUDENT[] students) {
+      for (int i = 0; i < students.length - 1; i++) {
+         for (int j = i + 1; j < students.length; j++) {
+            if (students[i].sname.compareTo(students[j].sname) > 0) {
+               STUDENT temp = students[i];
+               students[i] = students[j];
+               students[j] = temp;
+            }
+         }
+      }
    }
 
    void display() {
@@ -75,23 +87,10 @@ class STUDENT {
       System.out.println("Average Marks: " + avg);
       System.out.println("Initials: " + extractInitials());
       System.out.println("Name without whitespace: " + removeWhitespace());
-   }
+    }
 }
 
 public class StudentMain {
-   public static void sortByName(STUDENT[] students) {
-      int n = students.length;
-      for (int i = 0; i < n - 1; i++) {
-         for (int j = 0; j < n - i - 1; j++) {
-            if (students[j].sname.compareTo(students[j + 1].sname) > 0) {
-               STUDENT temp = students[j];
-               students[j] = students[j + 1];
-               students[j + 1] = temp;
-            }
-         }
-      }
-   }
-
    public static void main(String[] args) {
       Scanner sc = new Scanner(System.in);
 
@@ -106,13 +105,13 @@ public class StudentMain {
       STUDENT[] students = new STUDENT[n];
 
       for (int i = 0; i < n; i++) {
-         System.out.println("\nEnter details for Student " + (i + 1) + ":");
-         System.out.print("Enter the name of student: ");
+         students[i] = new STUDENT();
+
+         System.out.print("\nEnter the name of student " + (i + 1) + ": ");
          String name = sc.nextLine();
 
          System.out.print("Enter the number of subjects: ");
          int numSubjects = sc.nextInt();
-         sc.nextLine();
 
          int[] studentMarks = new int[numSubjects];
          System.out.println("Enter the marks for " + numSubjects + " subjects:");
@@ -121,31 +120,28 @@ public class StudentMain {
          }
          sc.nextLine();
 
-         students[i] = new STUDENT(name, studentMarks);
-        }
+         students[i].assign(name, studentMarks);
+      }
 
-        System.out.println("\nStudent Details:");
-        for (int i = 0; i < n; i++) {
-            System.out.println("\nDetails of Student " + (i + 1) + ":");
-            students[i].display();
-        }
+      System.out.println("\nStudent Details:");
+      for (int i = 0; i < n; i++) {
+         System.out.println("\nDetails of Student " + (i + 1) + ":");
+         students[i].display();
+      }
 
-        System.out.print("\nEnter substring to search in student names: ");
-        String substring = sc.nextLine();
-        System.out.println("\nStudents with names containing \"" + substring + "\":");
-        for (int i = 0; i < n; i++) {
-            if (students[i].containsSubstring(substring)) {
-               System.out.println(students[i].sname);
-            }
-        }
+      System.out.print("\nEnter substring to search in student names: ");
+      String substring = sc.nextLine();
+      System.out.println("\nStudents with names containing \"" + substring + "\":");
+      for (int i = 0; i < n; i++) {
+         if (students[i].containsSubstring(substring)) {
+            System.out.println(students[i].sname);
+         }
+      }
 
-        // Sort students by name
-        sortByName(students);
-
-        System.out.println("\nStudent Details (Sorted Alphabetically):");
-        for (int i = 0; i < n; i++) {
-            System.out.println("\nDetails of Student " + (i + 1) + ":");
-            students[i].display();
-        }
-    }
+      students[0].sortAlphabetically(students);
+      System.out.println("\nStudents sorted alphabetically:");
+      for (int i = 0; i < n; i++) {
+         students[i].display();
+      }
+   }
 }
