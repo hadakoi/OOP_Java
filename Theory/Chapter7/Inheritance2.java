@@ -21,9 +21,9 @@ class Animal {
     return age; // Return the age of the animal
   }
 
-  // Method to get the breed of the animal with a default implementation
+  // Method to get the breed of the animal (now returns the actual breed)
   public String getBreed() {
-    return "No information"; // Default message for breed
+    return breed; // Return the breed of the animal
   }
 
   // Method for animal speech with a default implementation
@@ -42,14 +42,13 @@ class Dog extends Animal {
   // Overriding getBreed method for Dog
   @Override
   public String getBreed() {
-    return "Dog breed: " + super.getBreed(); // Calls Animal's getBreed() and adds a Dog-specific prefix
+    return "Dog breed: " + super.getBreed(); // Calls Animal's getBreed() to return the actual breed
   }
 
   // Overriding animalSpeak method for Dog
   @Override
   public void animalSpeak() {
-    // Calls the getName() method from Animal and prints a Dog-specific message
-    System.out.println(getName() + " says: Woof!");
+    System.out.println(getName() + " says: Woof!"); // Calls the getName() method from Animal
   }
 }
 
@@ -63,19 +62,18 @@ class Cat extends Animal {
   // Overriding getBreed method for Cat
   @Override
   public String getBreed() {
-    return "Cat breed: " + super.getBreed(); // Calls Animal's getBreed() and adds a Cat-specific prefix
+    return "Cat breed: " + super.getBreed(); // Calls Animal's getBreed() to return the actual breed
   }
 
   // Overriding animalSpeak method for Cat
   @Override
   public void animalSpeak() {
-    // Calls the getName() method from Animal and prints a Cat-specific message
-    System.out.println(getName() + " says: Meow!");
+    System.out.println(getName() + " says: Meow!"); // Calls the getName() method from Animal
   }
 }
 
 // Main class to display animals
-public class Main {
+public class Inheritance2 {
   public static void main(String[] args) {
     // Creating instances of Animal, Dog, and Cat
     Animal animal1 = new Animal("Generic Animal", 5, "Unknown"); // Base Animal instance
@@ -87,16 +85,15 @@ public class Main {
     animal1.animalSpeak(); // Calls the default animalSpeak method from Animal
 
     // Displaying information and animal speech for the Dog instance
-    // This line prints the name, age, and breed of the Dog instance, and then calls the Dog-specific animalSpeak method
     System.out.println("Animal 2: " + animal2.getName() + ", Age: " + animal2.getAge() + ", Breed: " + animal2.getBreed());
     animal2.animalSpeak(); // Calls the overridden animalSpeak method from Dog
 
     // Displaying information and animal speech for the Cat instance
-    // This line prints the name, age, and breed of the Cat instance, and then calls the Cat-specific animalSpeak method
     System.out.println("Animal 3: " + animal3.getName() + ", Age: " + animal3.getAge() + ", Breed: " + animal3.getBreed());
     animal3.animalSpeak(); // Calls the overridden animalSpeak method from Cat
   }
 }
+
 
 /*
 1. Animal animal2 = new Dog("Rover", 3, "Labrador");:
